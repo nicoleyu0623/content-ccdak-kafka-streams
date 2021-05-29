@@ -9,7 +9,7 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.KStream;
 
-public class StreamsMain {
+public class One_StreamsMain {
 
     /**
      * FROM TOPIC to ----> ANOTHER TOPIC

@@ -12,14 +12,17 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.KStream;
 
-public class StatelessTransformationsMain {
+public class Three_StatelessTransformationsMain {
 
     public static void main(String[] args) {
+
+
         // Set up the configuration.
         final Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "stateless-transformations-example");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, 0);
+
         // Since the input topic uses Strings for both key and value, set the default Serdes to String.
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());

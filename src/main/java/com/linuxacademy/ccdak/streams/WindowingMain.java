@@ -29,10 +29,13 @@ public class WindowingMain {
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
 
+
+        //----------------------------------------------------------------------------------//
+
         // Get the source stream.
         final StreamsBuilder builder = new StreamsBuilder();
         KStream<String, String> source = builder.stream("windowing-input-topic");
-        
+
         KGroupedStream<String, String> groupedStream = source.groupByKey();
         
         // Apply windowing to the stream with tumbling time windows of 10 seconds.
@@ -41,7 +44,10 @@ public class WindowingMain {
         // Combine the values of all records with the same key into a string separated by spaces, using 10-second windows.
         KTable<Windowed<String>, String> reducedTable = windowedStream.reduce((aggValue, newValue) -> aggValue + " " + newValue);
         reducedTable.toStream().to("windowing-output-topic", Produced.with(WindowedSerdes.timeWindowedSerdeFrom(String.class), Serdes.String()));
-        
+
+
+        //----------------------------------------------------------------------------------//
+
         final Topology topology = builder.build();
         final KafkaStreams streams = new KafkaStreams(topology, props);
         // Print the topology to the console.

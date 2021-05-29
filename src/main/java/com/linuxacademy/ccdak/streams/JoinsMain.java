@@ -23,32 +23,41 @@ public class JoinsMain {
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
 
+        //----------------------------------------------------------------------------------//
         // Get the source stream.
         final StreamsBuilder builder = new StreamsBuilder();
         KStream<String, String> left = builder.stream("joins-input-topic-left");
         KStream<String, String> right = builder.stream("joins-input-topic-right");
 
-        // Perform an inner join.
+        //----------------------------------------------------------------------------------//
+
+        // 1. inner join.
         KStream<String, String> innerJoined = left.join(
             right,
             (leftValue, rightValue) -> "left=" + leftValue + ", right=" + rightValue,
             JoinWindows.of(Duration.ofMinutes(5)));
         innerJoined.to("inner-join-output-topic");
 
-        // Perform a left join.
+        //----------------------------------------------------------------------------------//
+
+        // 2. left join.
         KStream<String, String> leftJoined = left.leftJoin(
             right,
             (leftValue, rightValue) -> "left=" + leftValue + ", right=" + rightValue,
             JoinWindows.of(Duration.ofMinutes(5)));
         leftJoined.to("left-join-output-topic");
 
-        // Perform an outer join.
+        //----------------------------------------------------------------------------------//
+
+        // 3. outer join.
         KStream<String, String> outerJoined = left.outerJoin(
             right,
             (leftValue, rightValue) -> "left=" + leftValue + ", right=" + rightValue,
             JoinWindows.of(Duration.ofMinutes(5)));
         outerJoined.to("outer-join-output-topic");
 
+
+        //----------------------------------------------------------------------------------//
         final Topology topology = builder.build();
         final KafkaStreams streams = new KafkaStreams(topology, props);
         // Print the topology to the console.
