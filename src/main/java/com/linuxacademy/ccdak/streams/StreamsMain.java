@@ -11,6 +11,12 @@ import org.apache.kafka.streams.kstream.KStream;
 
 public class StreamsMain {
 
+    /**
+     * FROM TOPIC to ----> ANOTHER TOPIC
+     *
+     */
+
+
     public static void main(String[] args) {
         // Set up the configuration.
         final Properties props = new Properties();
